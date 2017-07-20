@@ -1,0 +1,47 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../../bower_components/app-route/app-route.html">
+<link rel="import" href="../../bower_components/iron-lazy-pages/iron-lazy-pages.html">
+
+<dom-module id="subpage-view">
+  <template>
+
+    <app-route route="{{route}}" pattern="/:page" data="{{routeData}}" tail="{{subroute}}"></app-route>
+
+    <iron-lazy-pages selected="{{routeData.page}}" attr-for-selected="data-route" fallback-selection="childone" load-async="true" restamp="true">
+
+      <template is="iron-lazy-page" data-route="childone">
+        <childone-view route="{{subroute}}" path="../elements/subpage-view/childone.html"></childone-view>
+      </template>
+      <template is="iron-lazy-page" data-route="childtwo">
+        <childtwo-view route="{{subroute}}" path="../elements/subpage-view/childtwo.html"></childtwo-view>
+      </template>
+
+    </iron-lazy-pages>
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'subpage-view',
+
+      properties: {
+        route: {
+          type: Object,
+          observer: "_onRouteChanged"
+        },
+        subroute: {
+          type: Object
+        }
+      },
+
+      _onRouteChanged: function(newValue, oldValue){
+        if(newValue.path === ""){
+          // should be: #/subpage/childone/list
+          this.set("route.path", "/childone/list");
+        }
+      }
+    });
+  </script>
+</dom-module>

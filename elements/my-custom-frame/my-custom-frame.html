@@ -1,0 +1,46 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../../bower_components/app-route/app-route.html">
+<link rel="import" href="../../bower_components/app-route/app-location.html">
+
+<link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../../bower_components/app-storage/app-network-status-behavior.html">
+
+<link rel="import" href="../my-application/my-application.html">
+
+<dom-module id="my-custom-frame">
+
+  <style>
+  </style>
+
+    <template>
+
+        <app-location route="{{route}}" use-hash-as-path></app-location>
+        <!-- maybe we can remove `use-hash-as-path` here? -->
+
+        <my-application route="{{route}}"></my-application>
+
+        <paper-toast duration="0" opened="[[!online]]">It seems that you are not connected to the internet. Please ensure you are connected.</paper-toast>
+    </template>
+    <script>
+
+        Polymer({
+            is: "my-custom-frame",
+            properties: {
+                route: {
+                    type: Object,
+                    observer: 'routeChanged',
+                    notify: true
+                }
+            },
+            checkRoute: function() {
+              if (this.route.path === '') {
+                this.set("route.path", "/home");
+              }
+            },
+            routeChanged: function() {
+              this.checkRoute();
+            }
+        });
+    </script>
+</dom-module>

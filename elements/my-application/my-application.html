@@ -1,0 +1,52 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-item/paper-icon-item.html">
+
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../../bower_components/iron-lazy-pages/iron-lazy-pages.html">
+
+<link rel="import" href="../../bower_components/app-route/app-route.html">
+
+<dom-module id="my-application">
+    <template>
+
+      <iron-selector selected="{{pageData.page}}" attr-for-selected="name">
+
+        <paper-icon-item name="home">
+          <iron-icon src="/images/icon.png" item-icon slot="item-icon"></iron-icon> Home
+        </paper-icon-item>
+
+        <paper-icon-item name="subpage">
+          <iron-icon src="/images/icon.png" item-icon slot="item-icon"></iron-icon> Subpage
+        </paper-icon-item>
+
+      </iron-selector>
+
+      <iron-lazy-pages id="pages" load-async="true" class="fit" selected="[[pageData.page]]" attr-for-selected="data-page" restamp="true" fallback-selection="home">
+
+        <template data-page="home" is="iron-lazy-page" path="../elements/home-view/home-view.html">
+          <home-view></home-view>
+        </template>
+        <template data-page="subpage" is="iron-lazy-page" path="../elements/subpage-view/subpage-view.html">
+          <subpage-view route="{{pageTail}}"></subpage-view>
+        </template>
+
+      </iron-lazy-pages>
+
+        <app-route route="{{route}}" pattern="/:page" data="{{pageData}}" tail="{{pageTail}}"></app-route>
+
+    </template>
+    <script>
+        Polymer({
+            is: "my-application",
+            properties: {
+                route: {
+                    type: Object,
+                    notify: true
+                }
+            }
+        });
+    </script>
+</dom-module>
