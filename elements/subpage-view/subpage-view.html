@@ -37,7 +37,7 @@
       },
 
       _onRouteChanged: function(newValue, oldValue){
-        if(newValue.path === ""){
+        if(newValue.path === "" && this.route.prefix === "/subpage"){
           // should be: #/subpage/childone/list
           this.set("route.path", "/childone/list");
         }
